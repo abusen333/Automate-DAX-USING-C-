@@ -1,0 +1,13 @@
+// Creates a TOTALYTD measure for every selected measure.
+foreach(var m in Selected.Measures) {
+    var newMeasure = m.Table.AddMeasure(
+        m.Name + " YTD",                                       // Name
+        "TOTALYTD(" + m.DaxObjectName + ", 'Date'[Date])",     // DAX expression
+        m.DisplayFolder                                        // Display Folder
+    );
+    newMeasure.FormatString = m.FormatString;               // Copy format string from original measure
+    foreach(var c in Model.Cultures) {
+        newMeasure.TranslatedNames[c] = m.TranslatedNames[c] + " YTD"; // Copy translated names for every culture
+        newMeasure.TranslatedDisplayFolders[c] = m.TranslatedDisplayFolders[c]; // Copy translated display folders
+    }
+}
